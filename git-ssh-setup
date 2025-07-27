@@ -1,0 +1,27 @@
+#!/bin/bash
+
+KEY_PATH="$HOME/.ssh/id_ed25519"
+
+echo "=== Configuração SSH + GitHub ==="
+
+read -p "Digite seu e-mail do GitHub: " email
+read -p "Digite seu nome do GitHub: " name
+
+if [ -f "$KEY_PATH" ]; then
+  echo "⚠️ Chave privada já existe em $KEY_PATH"
+else
+  echo "Gerando nova chave SSH..."
+  ssh-keygen -t ed25519 -C "$email" -f "$KEY_PATH" -N ""
+  eval "$(ssh-agent -s)"
+  ssh-add "$KEY_PATH"
+fi
+
+git config --global user.email "$email"
+git config --global user.name "$name"
+
+clear
+
+echo "=== Sua chave pública para copiar: ==="
+cat "${KEY_PATH}.pub"
+echo ""
+echo "Cole essa chave em: GitHub > Settings > SSH and GPG keys"
