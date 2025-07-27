@@ -20,6 +20,7 @@ clear
 git config --global user.email "$email"
 git config --global user.name "$name"
 git config --global alias.upall '!f() { git add . && git commit -m "update: $(git diff --cached --name-only | tr '\''\n'\'' ", " | sed '\''s/, $//'\'')" && git push origin main; }; f'
+git config --global alias.safe '!git config --global --add safe.directory "$(pwd)"'
 
 echo "=== Sua chave pública para copiar: ==="
 cat "${KEY_PATH}.pub"
